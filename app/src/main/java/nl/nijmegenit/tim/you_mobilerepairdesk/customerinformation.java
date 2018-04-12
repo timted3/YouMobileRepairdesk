@@ -5,9 +5,14 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -30,6 +35,32 @@ public class customerinformation extends AppCompatActivity {
         final TextView txtbHouseNumber = findViewById(R.id.txtbHouseNumber);
         final TextView txtbPostcode = findViewById(R.id.txtbPostcode);
         final Button btnNext = findViewById(R.id.btnNext);
+        final ListView customerView = findViewById(R.id.listCustomers);
+
+        final String items[] = {"Tim Jansen", "Thomas van de Kreeke", "Marnix van Wijland", "Robin van Renselaar"};
+
+        final ArrayAdapter<String> itemsAdapter =
+                new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, items);
+
+
+
+        txtbPostcode.addTextChangedListener(new TextWatcher() {
+
+            public void afterTextChanged(Editable s) {
+
+                customerView.setAdapter(itemsAdapter);
+            }
+
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+        });
+
+
+
+
+
+
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("customer");

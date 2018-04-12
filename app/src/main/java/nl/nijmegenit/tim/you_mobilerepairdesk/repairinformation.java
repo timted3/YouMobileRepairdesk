@@ -67,6 +67,8 @@ public class repairinformation extends AppCompatActivity {
                 Repair repair = new Repair(items[position], itemprice[position]);
 
 
+
+
                 repairs.add(repair);
 
 
