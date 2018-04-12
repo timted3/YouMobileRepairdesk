@@ -24,8 +24,8 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:ems="10"
+        android:hint="Phonenumber"
         android:inputType="none|phone"
-        android:text="Phone"
         android:textSize="14sp"
         app:layout_constraintStart_toEndOf="@+id/txtbEmail"
         app:layout_constraintTop_toBottomOf="@+id/txtbHouseNumber" />
@@ -37,8 +37,8 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:ems="10"
+        android:hint="E-mail"
         android:inputType="textEmailAddress"
-        android:text="E-mail"
         android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtbPostcode" />
@@ -50,8 +50,8 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:ems="10"
+        android:hint="Postcode"
         android:inputType="text|textPostalAddress"
-        android:text="Postcode"
         android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtvCustomerInformation" />
@@ -63,8 +63,8 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:ems="10"
+        android:hint="Name"
         android:inputType="textPersonName"
-        android:text="Name"
         android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtbPhone" />
@@ -76,8 +76,8 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:ems="10"
+        android:hint="Housenumber"
         android:inputType="number"
-        android:text="House number"
         android:textSize="14sp"
         app:layout_constraintStart_toEndOf="@+id/txtbPostcode"
         app:layout_constraintTop_toBottomOf="@+id/txtvCustomerInformation" />

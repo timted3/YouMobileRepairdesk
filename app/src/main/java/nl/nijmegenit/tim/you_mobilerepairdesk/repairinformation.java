@@ -66,6 +66,7 @@ public class repairinformation extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Repair repair = new Repair(items[position], itemprice[position]);
 
+
                 repairs.add(repair);
 
 
