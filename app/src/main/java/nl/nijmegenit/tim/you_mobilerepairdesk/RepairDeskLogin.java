@@ -40,6 +40,8 @@ import static android.Manifest.permission.READ_CONTACTS;
  */
 public class RepairDeskLogin extends AppCompatActivity implements LoaderCallbacks<Cursor> {
 
+    //GENERATED LOGIN PAGE, ALMOST NO CHANGES, ONLY SET INTENT.
+
     /**
      * Id to identity READ_CONTACTS permission request.
      */

@@ -37,26 +37,30 @@ public class repairinformation extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         Intent intent = getIntent();
+
+        //Indexing objects from the activity.
         final Customer customer = intent.getParcelableExtra("Customer");
         final Phone phone = intent.getParcelableExtra("Phone");
+        final ListView repairlist = findViewById(R.id.listRepairs);
+        final Button btnNext = findViewById(R.id.btnNext);
+        final ArrayList<Repair> repairs = new ArrayList<Repair>();
 
+
+        //Making arrays for static data
         final String items[] = {"Origineel Glas/Touchscreen + LCD display", "Refurbished", "Voorcamera", "Homeknop", "Laadconnector + Microfoon", "Batterij"};
         final int itemprice[] = {10000, 7500, 3495, 5400, 4500, 3000, 2995};
 
-
-        final ListView repairlist = findViewById(R.id.listRepairs);
-
+        //Converting to be used by listview
         ArrayAdapter<String> itemsAdapter =
                 new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, items);
 
 
+        //Adding to listview
         repairlist.setAdapter(itemsAdapter);
 
-        final Button btnNext = findViewById(R.id.btnNext);
-
-        final ArrayList<Repair> repairs = new ArrayList<Repair>();
 
 
+        //Repairlist getting the selected repair.
         repairlist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -69,6 +73,7 @@ public class repairinformation extends AppCompatActivity {
         });
 
 
+        //Initializing database
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("tickets");
         myRef.addValueEventListener(new ValueEventListener() {
@@ -82,13 +87,15 @@ public class repairinformation extends AppCompatActivity {
 
                 for (DataSnapshot messageSnapshot : dataSnapshot.getChildren()) {
 
+                    //Getting last ticketnumber to make new ticket.
                     String getKey = messageSnapshot.getKey();
 
                     int hoi = 0;
 
                     try {
                         key = Integer.parseInt(getKey);
-                    } catch (NumberFormatException nfe){}
+                    } catch (NumberFormatException nfe) {
+                    }
 
                     if (key > ticket_id) {
                         ticket_id = key;
@@ -108,33 +115,22 @@ public class repairinformation extends AppCompatActivity {
         });
 
 
+        //Final button
         btnNext.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 ticket_id = ticket_id + 1;
 
-
+                //Making ticket
                 Ticket ticket = new Ticket(customer, phone, repairs, "New", ticket_id, 1);
 
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
                 DatabaseReference myRef = database.getReference("tickets");
 
+                //Writing ticket to database
                 myRef.child(String.valueOf(ticket_id)).setValue(ticket);
 
 
-                //final ArrayList<Ticket> tickets = new ArrayList<Ticket>();
-                //tickets.add(ticket);
-
-                //myRef.setValue(tickets);
-
-
-                // Map<String, Ticket> tickets = new HashMap<>();
-                // tickets.put(ticket_id, ticket);
-
-
-                // myRef.setValue(tickets);
-                //myRef.updateChildren((Map<String, Object>) ticket);
-
-
+                //Back to the main activity.
                 Intent intent = new Intent(getBaseContext(), MainActivity.class);
                 startActivity(intent);
 

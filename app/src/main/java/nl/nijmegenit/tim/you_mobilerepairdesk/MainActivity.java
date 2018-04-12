@@ -34,21 +34,19 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //Indexing objects from the activity.
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         final ListView listMain = findViewById(R.id.listMain);
-        //final ArrayList<Ticket> tickets = new ArrayList<Ticket>();
-
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("tickets");
-
-
         final ArrayList<String> tickets = new ArrayList<>();
-
         final ArrayAdapter<String> itemsAdapter =
                 new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, tickets);
 
 
+        //Checking database for new data or getting data in the first place.
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -57,8 +55,7 @@ public class MainActivity extends AppCompatActivity
 
                 tickets.clear();
 
-
-
+                //Parsing data to be readable.
                 for (DataSnapshot messageSnapshot : dataSnapshot.getChildren()) {
                     String key = messageSnapshot.getKey();
                     String status = (String) messageSnapshot.child("status").getValue();
@@ -70,10 +67,11 @@ public class MainActivity extends AppCompatActivity
 
 
                 }
+                //Making sure the listview refreshes.
                 itemsAdapter.notifyDataSetChanged();
             }
 
-
+            //Posting error
             @Override
             public void onCancelled(DatabaseError error) {
                 // Failed to read value
@@ -81,19 +79,14 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-
-
-
-
+        //Add stringarray to the listadapter.
         listMain.setAdapter(itemsAdapter);
 
-
+        //Using FAB to go to add new ticket
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
 
 
                 Intent intent = new Intent(getBaseContext(), customerinformation.class);
@@ -104,6 +97,7 @@ public class MainActivity extends AppCompatActivity
         });
 
 
+        //Default code android (For the material design layout)
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);

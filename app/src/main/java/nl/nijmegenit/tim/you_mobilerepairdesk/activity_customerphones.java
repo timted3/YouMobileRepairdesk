@@ -28,20 +28,26 @@ public class activity_customerphones extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customerphones);
+
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        final ListView listCustomerPhones = findViewById(R.id.listPhones);
 
+
+        //Getting intent and data from activity
         Intent intent = getIntent();
         final Customer customer = intent.getParcelableExtra("Customer");
 
-        final String items[] = {"Telefoon 1", "Telefoon 2", "Telefoon 3", "Telefoon 4"};
+
+        //Making phone array for phones
         final ArrayList<Phone> phones = new ArrayList<Phone>();
 
-        final ListView listCustomerPhones = findViewById(R.id.listPhones);
 
         final ArrayAdapter<Phone> itemsAdapter =
                 new ArrayAdapter<Phone>(this, android.R.layout.simple_list_item_1, phones);
 
+        //Firebase database requirments
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("phones");
         myRef.addValueEventListener(new ValueEventListener() {
@@ -50,6 +56,8 @@ public class activity_customerphones extends AppCompatActivity {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
 
+
+                //Getting phones from db (This will be done by ticket in the future)
                 for (DataSnapshot messageSnapshot : dataSnapshot.getChildren()) {
                     String brand = (String) messageSnapshot.child("brand").getValue();
                     String model = (String) messageSnapshot.child("model").getValue();
@@ -69,14 +77,16 @@ public class activity_customerphones extends AppCompatActivity {
         });
 
 
-
+        //Set adapter to list
         listCustomerPhones.setAdapter(itemsAdapter);
 
+        //Check if clicked on phone
         listCustomerPhones.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                System.out.println(items[position]);
 
+
+                //Creating intend and sending selected phone for the customer to next activity
                 Intent intent = new Intent(getBaseContext(), phoneinformation.class);
 
                 intent.putExtra("Phone", phones.get(position));
@@ -84,20 +94,25 @@ public class activity_customerphones extends AppCompatActivity {
 
                 startActivity(intent);
 
+
             }
         });
 
-
+        //Check if clicked on the fab
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                //Creating intent and sending customer
                 Intent intent = new Intent(getBaseContext(), phoneinformation.class);
 
                 final Customer customer = intent.getParcelableExtra("Customer");
                 intent.putExtra("Customer", customer);
 
                 startActivity(intent);
+
+
             }
         });
     }
