@@ -41,11 +41,12 @@ public class activity_customerphones extends AppCompatActivity {
 
 
         //Making phone array for phones
-        final ArrayList<Phone> phones = new ArrayList<Phone>();
+        final ArrayList<String> phones = new ArrayList<String>();
+        final ArrayList<Phone> phoneobjects = new ArrayList<Phone>();
 
 
-        final ArrayAdapter<Phone> itemsAdapter =
-                new ArrayAdapter<Phone>(this, android.R.layout.simple_list_item_1, phones);
+        final ArrayAdapter<String> itemsAdapter =
+                new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, phones);
 
         //Firebase database requirments
         FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -64,7 +65,8 @@ public class activity_customerphones extends AppCompatActivity {
                     int imei = messageSnapshot.child("imei").getValue(Integer.class);
                     String serialnumber = (String) messageSnapshot.child("serialnumber").getValue();
                     Phone phone = new Phone(imei, serialnumber, brand, model);
-                    phones.add(phone);
+                    phones.add(phone.getBrand() +  " " + phone.getModel() + " " + phone.getImei());
+                    phoneobjects.add(phone);
                 }
                 itemsAdapter.notifyDataSetChanged();
             }
@@ -89,7 +91,7 @@ public class activity_customerphones extends AppCompatActivity {
                 //Creating intend and sending selected phone for the customer to next activity
                 Intent intent = new Intent(getBaseContext(), phoneinformation.class);
 
-                intent.putExtra("Phone", phones.get(position));
+                intent.putExtra("Phone", phoneobjects.get(position));
                 intent.putExtra("Customer", customer);
 
                 startActivity(intent);
